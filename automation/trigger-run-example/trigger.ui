@@ -10,7 +10,7 @@ $(document).ready(
 	function() {
 		/* Create the button */
 		var image = uiscripts.env.resource_base + "images/icons/running.png";
-		var button = $("<span class=\"actions\"><a href=\"javascript:void(0)\"><img width=\"8\" height=\"16\" src=\"" + image + "\"/> Start Automated Tests</a></span>");
+		var button = $("<span class=\"actions\"><a href=\"javascript:void(0)\"><img width=\"8\" height=\"16\" src=\"" + image + "\"/> Start Tests</a></span>");
 
 		/* Add it to the toolbar */
 		$("div#contentHeader span.actions:last").before(button);
