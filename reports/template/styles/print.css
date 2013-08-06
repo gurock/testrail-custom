@@ -1,0 +1,77 @@
+/**********************************************************************/
+/* General layout */
+
+body {
+	font-size: 9pt;
+	-webkit-print-color-adjust: exact;
+}
+
+#content {
+	padding: 0px;
+}
+
+#header h1 {
+	font-size: 13pt;
+}
+
+#header p.comment {
+	font-size: 8pt;
+}
+
+#footer p.comment {
+	font-size: 8pt;
+}
+
+/**********************************************************************/
+/* Styles for standard tags */
+
+h1 {
+	font-size: 12pt;
+}
+
+h2 {
+	font-size: 11pt;
+}
+
+h3 {
+	font-size: 10pt;
+}
+
+h3 span.chapter {
+	display: inline;
+}
+
+a {
+	color: black;
+}
+
+/**********************************************************************/
+/* Print related */
+
+.noPrint {
+	display: none;
+}
+
+/**********************************************************************/
+/* Common classes */
+
+.secondary {
+	font-size: 8pt;
+}
+
+/**********************************************************************/
+/* The standard data table, aka the Grid */
+
+div.gridContainer {
+	margin-left: 0em;
+}
+
+table.grid {
+	font-size: 9pt;
+}
+
+table.grid th,
+table.grid td {
+	overflow: visible;
+	white-space: normal;
+}
