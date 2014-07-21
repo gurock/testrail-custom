@@ -7,5 +7,6 @@ several examples for this.
 http://docs.gurock.com/testrail-integration/start
 
 -- 
-Copyright Gurock Software GmbH. All rights reserved.
+Copyright Gurock Software GmbH. See license.md for details.
+
 http://www.gurock.com/
