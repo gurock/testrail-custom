@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright Gurock Software GmbH. All rights reserved.
+ * Copyright Gurock Software GmbH. See license.md for details.
  *
  * This is a sample custom report plugin that computes and displays
  * the result distribution for different test properties.

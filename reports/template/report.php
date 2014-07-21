@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright Gurock Software GmbH. All rights reserved.
+ * Copyright Gurock Software GmbH. See license.md for details.
  *
  * This is the official template for developing report plugins for
  * TestRail.

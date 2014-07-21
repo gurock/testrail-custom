@@ -6,7 +6,7 @@
  * test run (passed in as GET parameter) and reports back the results
  * to TestRail via TestRail's API.
  * 
- * Copyright Gurock Software GmbH. All rights reserved.
+ * Copyright Gurock Software GmbH. See license.md for details.
  *
  * http://www.gurock.com/testrail/
  */
