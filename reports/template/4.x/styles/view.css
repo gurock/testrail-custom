@@ -1,0 +1,680 @@
+/**********************************************************************/
+/* General layout */
+
+body {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+#content {
+	padding: 15px;
+}
+
+#header {
+	margin-bottom: 1.5em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid #A0A0A0;
+}
+
+#header h1 {
+	background: none;
+	font-size: 16px;
+	font-weight: bold;
+	color: #303030;
+	padding: 0;
+	margin: 0;
+}
+
+#header p.comment {
+	color: #505050;
+	font-size: 11px;
+}
+
+#header div.description {
+	background: #F5FAFE;
+	border: 1px solid #C0C0C0;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;	
+	padding: 1em;
+	margin: 1.5em 0 1em 0;
+}
+
+#footer {
+	margin-top: 1.5em;
+	border-top: 1px solid #A0A0A0;
+}
+
+#footer p.comment {
+	color: #707070;
+	font-size: 11px;
+}
+
+/**********************************************************************/
+/* Styles for standard tags */
+
+h1 {
+	background: #BAD3EA;
+	padding: 7px 6px;
+	font-size: 15px;
+	margin: 2em 0 1em 0;
+	font-weight: normal;
+}
+
+h1.main {
+	background: none;
+	font-size: 16px;
+	font-weight: bold;
+	color: #303030;
+	padding: 0;
+	margin: 0;
+	margin-top: 1.5em;
+	text-align: center;
+}
+
+h1.main span.title {
+	border-bottom: 1px solid #A0A0A0;
+}
+
+h1 .right {
+	float: right;
+}
+
+h2 {
+	font-size: 14px;
+	font-weight: normal;
+	padding-bottom: 2px;
+	margin: 1.5em 0 1em 0;
+	border-bottom: 1px solid #A0A0A0;
+}
+
+h2 .secondary {
+	font-size: 12px;
+	font-weight: normal;
+}
+
+h3 {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 1.5em 0 1em 0;
+}
+
+h3 span.chapter {
+	display: none;	
+}
+
+h3 a,
+h3 a:link,
+h3 a:active,
+h3 a:visited,
+h3 a:hover {
+	color: black;
+}
+
+h3 .configuration {
+	font-size: 11px;
+	font-weight: normal;
+}
+
+h3 .secondary {
+	font-size: 11px;
+	font-weight: normal;
+}
+
+p {
+	padding: 0;
+	margin-top: 12px;
+	margin-bottom: 12px;
+	line-height: 140%;
+}
+
+a,
+a:link,
+a:active,
+a:visited,
+a:hover {
+	outline: none;
+	color: #0064AE;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+img {
+	border: 0;
+	-ms-interpolation-mode: bicubic;
+}
+
+/**********************************************************************/
+/* Common classes */
+
+.top {
+	margin-top: 0 !important; 
+}
+
+.bottom {
+	margin-bottom: 0 !important; 
+}
+
+.secondary {
+	color: #707070;
+	font-size: 10px;
+}
+
+.dateSection {
+	margin-top: 1.5em;
+	margin-bottom: 1em;
+	padding: 2px 0;
+}
+
+.dateSection .title {
+	border-bottom: 1px solid #A0A0A0;
+	color: #505050;
+	font-weight: normal;
+	font-size: 12px;
+	text-decoration: none;
+}
+
+.dateSection .title a,
+.dateSection .title a:link,
+.dateSection .title a:active,
+.dateSection .title a:visited,
+.dateSection .title a:hover {
+	color: #505050;
+	text-decoration: none;
+}
+
+.statusBox {
+	color: white;
+	font-size: 11px;
+	padding: 2px 3px;
+	display: inline;
+	text-decoration: none;
+	border-radius: 2px;
+	line-height: 100%;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border: 0;
+}
+
+.defaultBox {
+	background: #689AEB;
+}
+
+a.statusBoxLink {
+	text-decoration: none;
+}
+
+.runBox {
+	background: #E5AD35;
+}
+
+.milestoneBox {
+	background: #BFBF21;
+}
+
+.suiteBox {
+	background: #7ABC2A;
+}
+
+.deleted  {
+	text-decoration: line-through;
+	color: #505050;
+}
+
+/**********************************************************************/
+/* Message boxes */
+
+p.partial {
+	background: #EAEAEA;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;	
+	margin-top: 16px;
+	padding: 5px;
+	font-size: 11px;
+}
+
+div.help {
+	background: #EAEAEA;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	margin-top: 16px;
+	font-size: 11px;
+	overflow: auto;
+}
+
+div.help img {
+	float: left;
+	margin-top: 4px;
+	margin-left: 5px;
+}
+
+div.help p {
+	padding: 5px;
+	margin: 0;
+	margin-left: 21px;
+}
+
+/**********************************************************************/
+/* Charts */
+
+div.chartContainer {
+	margin: 1.5em 0;
+}
+
+div.chartContainer .chartColumn {
+	float: left;
+}
+
+div.legendHeader {
+	color: #707070;
+	font-size: 15px;
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+div.legendColumn {
+	float: left;
+}
+
+div.legendEntry {
+	margin-bottom: 12px;
+	height: 30px;
+}
+
+div.legendEntry .title {
+	padding-top: 2px;
+	padding-bottom: 3px;
+	font-weight: bold;
+	color: #505050;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+div.legendEntry .description {
+	margin-top: 3px;
+	padding-bottom: 3px;
+	font-size: 11px;
+	color: #707070;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+div.legendEntry .icon {
+	float: left;
+	border: 1px gray solid;
+	width: 20px;
+	margin: 0.5em 1em 0 0;
+}
+
+div.legendEntry .icon div {
+	float: left;
+	height: 20px;
+}
+
+div.percent {
+	padding: 3.5em 0 1em 0;
+}
+
+div.percent .title {
+	font-size: 40px;
+	color: #505050;
+}
+
+div.percent .description {
+	font-size: 26px;
+	color: #909090;
+}
+
+div.percentNote {
+	margin-bottom: 1em;
+	height: 30px;
+}
+
+/**********************************************************************/
+/* The standard data table, aka the Grid */
+
+div.gridContainer {
+	margin-left: 2em;
+}
+
+table.grid {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	border: none;
+	font-size: 11px;
+	table-layout: fixed;
+}
+
+table.grid tr.noBorder td,
+table.grid tr.noBorder th {
+	border: none;
+}
+
+table.grid col.box {
+	width: 75px;
+}
+
+table.grid col.icon {
+	width: 18px;
+}
+
+table.grid col.chart {
+	width: 135px;
+}
+
+table.grid col.comment {
+	width: 175px;
+}
+
+table.grid col.percent {
+	width: 45px;
+}
+
+table.grid td.percent {
+	text-align: right;
+}
+
+table.grid th,
+table.grid td {
+	padding: 5px;
+	margin: 0;
+	text-align: left;
+	line-height: 1.2;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+table.grid th {
+	color: #303030;
+	font-weight: bold;
+	border-top: none;
+	border-bottom: 1px solid #DEE9FE;
+}
+
+table.grid th .secondary {
+	font-weight: normal;
+}
+
+table.grid td {
+	font-weight: normal;
+	border-top: none;
+	border-bottom: 1px solid #EAEAEA;
+	vertical-align: top;
+}
+
+table.grid td.id {
+	font-size: 10px;
+	color: #505050;	
+}
+
+table.grid td.id a,
+table.grid td.id a:link,
+table.grid td.id a:active,
+table.grid td.id a:visited,
+table.grid td.id a:hover {
+	color: #505050;
+}
+
+table.grid td.separator {
+	border-bottom: 1px solid #D0D0D0;
+}
+
+table.grid td.icon {
+	padding: 6px 3px 0px 5px;
+}
+
+table.grid td.box {
+	padding-left: 0px;
+	padding-right: 5px;
+	text-align: right;
+	border-bottom: none;
+}
+
+table.grid td.sub {
+	color: #505050;
+}
+
+table.grid td.right {
+	text-align: right;
+}
+
+table.grid tr.header {
+	background: #E6F2FD;
+}
+
+table.grid tr.header th {
+	background: #E6F2FD;
+}
+
+table.grid tr.odd:hover, 
+table.grid tr.even:hover,
+table.grid tr.oddSelected:hover, 
+table.grid tr.evenSelected:hover {
+	background: #F1F8FE;
+}
+
+/**********************************************************************/
+/* Entity-specific */
+
+.configuration {
+	color: #337933;
+}
+
+/**********************************************************************/
+/* Stats (e.g. for Progress) */
+
+.statsContainer {
+	margin: 1.5em 0 0.5em 0;
+	background: #FAFAFA;
+	border: 1px solid #E0E0E0;
+	padding: 1em;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	overflow: auto;
+}
+
+.statsContainerHighlighted {
+	background: #FFFFF0;
+}
+
+.statsContainer strong {
+	color: #505050;
+}
+
+.statsContainer .statsIcon {
+	float: left;
+	padding-right: 1em;
+}
+
+.statsContainer .statsContent {
+	margin-left: 46px;
+}
+
+.statsContainer .statsRight {
+	float: right;
+}
+
+.statsContainer .statsRight .estimate {
+	font-size: 24px;
+	color: #505050;
+}
+
+.minibarContainer {
+	float: right;
+}
+
+.minibarContainer .percentSmall {
+	font-size: 10px;
+	font-weight: bold;
+	color: #707070;
+	margin-left: 5px;
+	width: 40px;
+	float: left;
+}
+
+.minibarContainer .percentSmall span {
+	float: right;
+}
+
+.minibarContainer .bar {
+	float: left;
+	width: 75px;
+	background: #f2f2f2;
+	border: 1px gray solid;
+}
+
+.minibarContainer .bar .dataCustom {
+	float: left;
+	height: 11px;
+}
+
+.minibarContainer .bar .dataTransparent {
+	float: left;
+	background: #EAEAEA;
+	height: 11px;
+}
+
+/**********************************************************************/
+/* Markdown */
+
+.markdown {
+	word-wrap: break-word;
+}
+
+.markdown strong {
+	color: #505050;	
+}
+
+.markdown p {
+	margin: 1em 0 1em 0;
+}
+
+.markdown *:last-child {
+	margin-bottom: 0;
+}
+
+.markdown >:first-child {
+	margin-top: 0;
+}
+
+.markdown h1 {
+	font-size: 14px;
+	font-weight: bold;
+	margin: 1em 0 1em 0;
+	color: #303030;
+	padding: 0;
+}
+
+.markdown h2 {
+	font-size: 13px;
+	font-weight: bold;
+	margin: 1em 0 1em 0;
+	color: #303030;
+	padding: 0;
+}
+
+.markdown h3 {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 1em 0 1em 0;
+	color: #303030;
+	padding: 0;
+}
+
+.markdown h4 {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 1em 0 1em 0;
+	color: #303030;
+	padding: 0;
+}
+
+.markdown h5 {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 1em 0 1em 0;
+	color: #303030;
+	padding: 0;
+}
+
+.markdown h6 {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 1em 0 1em 0;
+	color: #303030;
+	padding: 0;
+}
+
+.markdown blockquote {
+	font-style: italic;
+	color: #505050;
+	margin: 1em 2em 0 2em;
+}
+
+.markdown hr {
+	color: #C0C0C0;
+	background-color: #E0E0E0;
+	margin: 1em 0;
+	height: 1px;
+	border: none;
+}
+
+.markdown pre {
+	margin: 1em 0;
+	overflow: auto;
+	width: auto;
+	padding: 2px 0;
+	line-height: 140%;
+	*overflow: visible;
+	*overflow-x: auto;
+	*overflow-y: hidden;
+	*padding-bottom: 15px;
+}
+
+.markdown ul,
+.markdown ol,
+.markdown pre,
+.markdown blockquote {
+	margin-bottom: 0;
+}
+
+.markdown ol li p,
+.markdown ul li p {
+	margin-bottom: 1em;
+}
+
+.markdown ol {
+	list-style: decimal !important;
+	margin-left: 2.5em;
+	margin-top: 2px;
+}
+
+.markdown ul {
+	list-style: disc !important;
+	margin-left: 2em;
+	margin-top: 2px;
+}
+
+.markdown ol li {
+	display: list-item;
+	padding: 1px;
+	line-height: 140%;
+}
+
+.markdown ul li {
+	display: list-item;
+	padding: 1px;
+	line-height: 140%;
+}
