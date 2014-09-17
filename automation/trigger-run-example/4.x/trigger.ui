@@ -37,7 +37,7 @@ $(document).ready(
 				});
 
 				App.Dialogs.message(
-					'The tests are progressed in the background and the results are automatically posted back to TestRail. This page refreshes once the tests are finished.',
+					'The tests are being processed in the background and the results are automatically posted back to TestRail. This page refreshes once the tests are finished.',
 					'Confirmation'
 				);
 

@@ -1,0 +1,47 @@
+name: Trigger tests for run
+description: Triggers automated tests for a test run
+author: Gurock Software
+version: 1.0
+includes: ^runs/view
+excludes: 
+
+js:
+$(document).ready(
+	function() {
+		/* Create the button */
+		var button = $('<div class="toolbar content-header-toolbar"><a class="toolbar-button toolbar-button-last toolbar-button-first content-header-button button-start" href="javascript:void(0)">Start Tests</a></div>');
+
+		/* Add it to the toolbar */
+		$("#content-header .content-header-inner").prepend(button);		
+
+		/* Bind the click event to trigger the automated tests */
+		$("a", button).click(
+			function()
+			{
+				$.ajax(
+				{
+					url: "trigger.php?run_id=" + uiscripts.context.run.id,
+					dataType: "json",
+					type: "POST",
+					success: function()
+					{
+						location.reload();
+					},
+					error: function()
+					{
+						App.Dialogs.error(
+							'An error occurred while trying to trigger the automated tests.'
+						);
+					}
+				});
+
+				App.Dialogs.message(
+					'The tests are being processed in the background and the results are automatically posted back to TestRail. This page refreshes once the tests are finished.',
+					'Confirmation'
+				);
+
+				return false;
+			}
+		);
+	}
+);
