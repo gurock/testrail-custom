@@ -1,0 +1,9 @@
+{
+	"author": "Gurock Software",
+	"version": 1,
+	"label": "l:reports_tpr_meta_label",
+	"summary": "l:reports_tpr_meta_summary",
+	"description": "l:reports_tpr_meta_description",
+	"group": "l:reports_tpr_meta_group",
+	"translations": ["reports_tpr"]
+}
