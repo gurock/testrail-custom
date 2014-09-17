@@ -2,7 +2,7 @@
 
 <p><?= lang('reports_tmpl_form_intro') ?></p>
 
-<div class="tab">
+<div class="tabs">
 	<div class="tab-header">
 		<a href="javascript:void(0)" class="tab1 <?= $tab == 1 ? 'current' : '' ?>" rel="1"
 			onclick="App.Tabs.activate(this)"><?= lang('reports_tmpl_form_tab1') ?></a>
