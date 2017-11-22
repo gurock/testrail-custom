@@ -30,7 +30,7 @@
 		</div>
 		<div class="tab tab2 hidden">
 			<!-- The content of tab 2 goes here -->
-			<? $report_obj->render_control(
+			<?= $report_obj->render_control(
 				$controls,
 				'runs_select',
 				array(
@@ -38,7 +38,7 @@
 					'project' => $project
 				)
 			) ?>
-			<? $report_obj->render_control(
+			<?= $report_obj->render_control(
 				$controls,
 				'runs_limit',
 				array(
