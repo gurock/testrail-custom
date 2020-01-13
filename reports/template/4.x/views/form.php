@@ -11,10 +11,10 @@
 	</div>
 	<div class="tab-body tab-frame">
 		<div class="tab tab1 <?= $tab != 1 ? 'hidden' : '' ?>">
-			<?= lang('reports_tmpl_form_tab1') ?>
+			<?php lang('reports_tmpl_form_tab1') ?>
 		</div>
 		<div class="tab tab2 <?= $tab != 2 ? 'hidden' : '' ?>">
-			<?= lang('reports_tmpl_form_tab2') ?>
+			<?php lang('reports_tmpl_form_tab2') ?>
 		</div>
 	</div>
 </div>
