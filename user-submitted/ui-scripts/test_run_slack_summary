@@ -1,5 +1,6 @@
 name: Slack Button for Test Runs
 description: Adds a button to test run view pages. The button sends summary statistics to Slack. URL in $.ajax must be updated. Requires a Slack app which allows incoming messages. See https://api.slack.com/start/overview for additional details on slack apps.
+author: Gurock Software
 version: 1.0
 includes: ^runs/view
 excludes: 
