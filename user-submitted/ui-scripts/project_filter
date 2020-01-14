@@ -1,0 +1,54 @@
+name: Filter Projects
+description: Filters projects with each letter in the overview page. Useful if your instance has many projects
+author: Gurock Software
+version: 1.0
+includes: ^dashboard
+excludes: 
+
+js:
+$(document).ready(
+	function() {
+		
+// Create and insert the text input element
+const header = document.querySelector('h1.top')
+const searchBar = document.createElement('input')
+searchBar.setAttribute('placeholder', 'Filter your projects...')
+searchBar.setAttribute('style', 'margin-left: 10px; padding-left: 5px; border: 1px solid #003366')
+header.appendChild(searchBar)
+
+// Get a list of the projects and covert to Array
+const getAllProjects = document.querySelectorAll('.row')
+const allProjects = Array.from(getAllProjects)
+
+// Create function to be called with every keystroke to filter the elements
+const filterProjects = function (allProjects, filters) {
+
+  allProjects.filter(function (project) {
+      // Search a few elements deep to find title
+      if (!project.children[1].children[0].textContent.toLowerCase().includes(filters.searchFilter)) { 
+          project.style.display = 'none'
+      } else {
+          project.style.display = ''
+      }
+  })
+}
+
+// Listen for the changes in the text input and update search filter accordingly
+const filters = {
+    searchFilter: ''
+}
+searchBar.addEventListener('input', function (e) {
+    filters.searchFilter = e.target.value.toLowerCase()
+    filterProjects(allProjects, filters)
+})
+
+document.getElementById('sidebar').style.backgroundColor= '#d1e6fd';
+document.getElementsByClassName('top-section')[0].style.fontSize = 'xx-large';
+var a = document.getElementsByClassName('summary-column-icon');
+for(i=0;i < a.length;i++){
+  //a[i].style.display = 'none';}
+  var b = document.getElementsByClassName('summary-title');
+  for(i=0;i < b.length;i++){
+    b[i].style.fontSize= '17px';}
+  }
+});
