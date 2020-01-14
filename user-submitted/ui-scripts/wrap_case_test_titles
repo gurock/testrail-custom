@@ -1,0 +1,11 @@
+name: Wrap case or test titles in grids
+description: Wrap case or test titles in grids
+author: Gurock Software
+version: 1.0
+includes: ^(suites|runs)/view
+excludes: 
+
+css:
+.grid td {
+    white-space: normal;
+}
