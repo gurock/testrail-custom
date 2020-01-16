@@ -1,5 +1,7 @@
 // Adds an attachment to a test result
 // The test result must exist first
+// Author: Gurock Software
+
 var request = require('request');
 var fs = require('fs');
 
