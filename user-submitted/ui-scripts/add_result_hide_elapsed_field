@@ -10,6 +10,6 @@ $(document).ready(
 	function() {
 		$.subscribe('result_dialog.loaded', '', function(o) {
 			elapsed_starter = document.getElementById('addResultElapsedStart');
-			elapsed_parent = elapsed_starter.parentElement.style.display = 'none';
+			elapsed_starter.parentElement.style.display = 'none';
 		});
 });
