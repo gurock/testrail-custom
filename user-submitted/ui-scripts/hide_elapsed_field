@@ -1,0 +1,15 @@
+name: Hide Elapsed Field in Add Result Dialog
+description: Hides the Elapsed field in the Add Result dialog
+author: Gurock Software
+version: 1.0
+includes: ^(runs|tests)/view
+excludes: 
+
+js:
+$(document).ready(
+	function() {
+		$.subscribe('result_dialog.loaded', '', function(o) {
+			elapsed_starter = document.getElementById('addResultElapsedStart');
+			elapsed_parent = elapsed_starter.parentElement.style.display = 'none';
+		});
+});
