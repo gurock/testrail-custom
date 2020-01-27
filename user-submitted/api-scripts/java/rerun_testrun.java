@@ -1,3 +1,9 @@
+/*
+ * Description: Replicates the UI functionality of 'Rerun', creating a new test run based on
+ * an existing run.
+ * Author: Gurock Software
+ */
+
 import gurock.testrail.*;
 import java.io.IOException;
 import java.util.ArrayList;
