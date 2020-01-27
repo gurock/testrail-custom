@@ -60,9 +60,6 @@ public class Program
 		 */
 		JSONObject run_details = (JSONObject) client.sendGet("get_run/" + run_id);
 
-		/**
-		 * Store the project ID for the test run
-		 */
 		long project_id = (Long) run_details.get("project_id");
 
 		/**
@@ -80,9 +77,6 @@ public class Program
 		 */
 		if(!((Boolean) run_details.get("include_all")) || (statuses != "1,2,3,4,5,6,7,8,9,10,11,12"))
 		{
-			/**
-			 * Get the case_ids from the previous test run
-			 */
 			post_body.put("case_ids", get_case_ids_for_run(client, run_id, statuses));
 		}
 		
