@@ -1,0 +1,15 @@
+name: Demonstrate loaded event on Push Dialog
+description: Changes the 'Summary' field of the Push Dialog to a custom value
+author: Gurock Software
+version: 1.0
+includes: ^(runs|tests)/view
+excludes: 
+
+js:
+$(document).ready(
+	function() {
+		$.subscribe('push_dialog.loaded', '', function(o) {
+		document.getElementById('defect_summary').value = "Your Text Here"; 
+	}
+);
+});

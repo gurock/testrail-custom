@@ -1,0 +1,12 @@
+name: Change TestRail Font
+description: Changes the font type for all elements in TestRail
+author: Gurock Software
+version: 1.0
+includes: 
+excludes:
+
+css:
+*
+{
+font-family: 'Times New Roman' !important;
+}

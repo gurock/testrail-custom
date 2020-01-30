@@ -1,0 +1,74 @@
+name: Gherkin Linter
+description: Lints Gherkin syntax. See https://discuss.gurock.com/t/gherkin-syntax-uiscript/12898 for additional documentation.
+author: Brian Fitzsimmons
+version: 1.0
+includes: ^tests/view || ^cases
+excludes: 
+
+js:
+$(document).ready(function () {
+
+  $(".markdown").each(function () {
+    var string = $(this).html();    
+    string = string.replace(/\r\n|\n\r|\n|\r/gm, "");
+    string = string.replace(/(\&lt;gherkin\&gt;.*)<\/p><p>(.*\&lt;\/gherkin\&gt;)/g, "$1<br><br>$2");
+    string = string.replace(/(\<br\>)*\&lt;(\/?gherkin)\&gt;(\<br\>)*/g, "<$2>");
+    $(this).html(string);
+  });
+
+  $(".markdown gherkin").each(function () {
+    var string = $(this).html();
+    
+    //format the headers in pipe tables
+    if (string.includes("Examples:")) {
+      var oldExamplesHeader = string.replace(/.*\n*.*Examples:[^|]+(\|[^<]+).*/gm, '$1').replace(/\r\n|\n\r|\n|\r/gm, "");
+      var newExamplesHeader = oldExamplesHeader.replace(/\|([^<|]+)/g, "|<span class='gherkinExamplesHeader'>$1</span>").replace(/\r\n|\n\r|\n|\r/gm, "");
+      string = string.replace(oldExamplesHeader, newExamplesHeader);
+    }
+
+    string = string.replace(/\&lt;([^&]*)\&gt;/g, "<span class='gherkinParameter'>&lt;</span><span class='gherkinExamplesHeader'>$1</span><span class='gherkinParameter'>&gt;</span>");
+    string = string.replace(/\|([^<|]+)/g, "|<span class='gherkinParameter'>$1</span>");
+    string = string.replace(/<br>(\s*)(Given|When|Then|And)/g, "<br>  <span class='gherkinStep'>$2</span>");
+    string = string.replace(/(\s*)(Feature:|Scenario:|Scenario Outline:|Examples:|Background:)/g, "<span class='gherkinHeader'>$2</span>");
+    string = string.replace(/<br>\s*\|/g, "<br>    |");
+    string = string.replace(/\|/g, "<span class='gherkinHeader'>|</span>");
+    
+    string = string.replace(/\$([^\$]+)\$/g, "<span class='gherkinParameter'>$1</span>");
+    
+    $(this).html(string);
+  });
+
+  $( ".markdown gherkin" ).wrap( "<pre></pre>" );
+});
+
+css:
+.gherkinHeader {
+    color:red;
+    font-weight: bold;
+}
+
+.gherkinStep {
+    color:blue;
+    font-weight: bold;
+}
+
+.gherkinOutlineVarBraces {
+    color:purple;
+    font-weight: bold;
+}
+
+.gherkinParameter{
+    color:green;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.gherkinExamplesHeader{
+    color:purple;
+    font-weight: bold;
+}
+
+.markdown gherkin{
+    font-family: monospace;
+    font-size: 14px;
+}

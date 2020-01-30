@@ -1,0 +1,60 @@
+name: Slack Button for Test Runs
+description: Adds a button to test run view pages. The button sends summary statistics to Slack. URL in $.ajax must be updated. Requires a Slack app which allows incoming messages. See https://api.slack.com/start/overview for additional details on slack apps.
+author: Gurock Software
+version: 1.0
+includes: ^runs/view
+excludes: 
+
+js:
+$(document).ready(
+    function() {
+	var rd = uiscripts.context.run;
+	var total_tests = rd.passed_count + rd.retest_count + rd.blocked_count + rd.failed_count + rd.untested_count + rd.custom_status1_count + rd.custom_status2_count + rd.custom_status3_count + rd.custom_status4_count + rd.custom_status5_count + rd.custom_status6_count + rd.custom_status7_count;
+	
+	//The statuses should be updated to suit your needs
+	var passed = "Passed: " + rd.passed_count;
+	var failed = "Failed: " + rd.failed_count;
+	var blocked = "Blocked: " + rd.blocked_count;
+	var needs_review= "Needs Review: " + rd.custom_status1_count;
+	var untested = "Untested: " + rd.untested_count;
+	var completion_percent = (100*(total_tests - rd.untested_count)/total_tests).toFixed(2);
+
+	//Build the message for Slack
+	var payload = '{"blocks": [{"type":"section","text":{"type":"mrkdwn","text":"*';
+	payload += uiscripts.context.user.name + '* created a Slack Notification for Test Run ';
+	payload += rd.id + ': *' + rd.name + '*"}},';
+	payload += '{"type":"divider"},'
+	payload += '{"type":"section","fields":['
+	payload += '{"type":"mrkdwn","text":"*Total Tests: ' + total_tests + '*"},'
+	payload += '{"type":"mrkdwn","text":"*Completed: ' + completion_percent + '%*"},'
+	payload += '{"type":"plain_text","text":"' + passed + '","emoji":true},'
+	payload += '{"type":"plain_text","text":"' + failed + '","emoji":true},'
+	payload += '{"type":"plain_text","text":"' + blocked + '","emoji":true},'
+	payload += '{"type":"plain_text","text":"' + needs_review + '","emoji":true},'
+	payload += '{"type":"plain_text","text":"' + untested + '","emoji":true}'
+	payload += ']}]}';
+	//console.log(payload);
+
+	//Create Slack Button
+    	var button = $('<div class="toolbar content-header-toolbar"><a class="toolbar-button toolbar-button-last toolbar-button-first content-header-button button-start" href="javascript:void(0)">Slack</a></div>');
+    	$("#content-header .content-header-inner").prepend(button);
+
+	//Submit payload to Slack
+    	$("a", button).click(
+	    function()
+	    {
+		$.ajax({
+			//URL should be the URL of the Slack App's Incoming Webhook
+			url: "<<SLACK APP DETAILS HERE>>",
+			data: payload,
+			type: "POST"
+		})
+	    	.done(function (reply) {
+			console.log("POST to Slack succeeded")
+	    	})
+	    	.fail(function (xhr, status, errorThrown) {
+			console.log("Error in POST to Slack: " + errorThrown.toString())
+	    	})
+	    }
+	);
+});
