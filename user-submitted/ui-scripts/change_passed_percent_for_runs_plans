@@ -16,7 +16,7 @@ $(document).ready(
 	{
 		data = uiscripts.context.run;
 	}
-	console.log(data);
+	//console.log(data);
 	passed_count = data.custom_status1_count + data.passed_count;
 	total_count = data.custom_status1_count + data.blocked_count + data.failed_count + data.passed_count + data.retest_count + data.untested_count;
 	pass_percent = ((passed_count)*(100 / total_count)).toFixed(0);
