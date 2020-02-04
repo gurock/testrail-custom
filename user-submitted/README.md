@@ -14,7 +14,7 @@ This repository holds user-submitted scripts for TestRail's API, UI Customizatio
 * When submitting a pull request to modify a script you did not write, please include a detailed comment and link(s) to any supporting documentation if necessary.
 
 ### Disclaimers
-* Scripts provided may not be bug-free, so please use at your own risk.
+* Scripts provided may contain bugs, so are used at your own risk.
 * Since the code and scripts available in this repository will be user-contributed, the TestRail support team may not be able to fully troubleshoot or help customize these.
 
 ### Contact Us
