@@ -1,0 +1,124 @@
+from testrail import *
+import time
+
+##########################
+# HOW TO USE THIS SCRIPT #
+######################################################################################################################
+# 1. Edit TESTRAIL, RUN_ID, and RUN_TITLE values to match your criteria
+# 2. Run the script
+#
+# To use this externally, import rerun_test_run and pass an APIClient, run ID, title, and statuses string as args.
+######################################################################################################################
+
+###########################
+# NOTES ABOUT THIS SCRIPT #
+######################################################################################################################
+# - This script has not been fully tested and should be checked against your real data to ensure accuracy
+# - This script does handle rate limits (429 errors) with TestRail Cloud
+# - This script does not handle other exceptions
+# - This script does not reassign individual tests to individual users
+######################################################################################################################
+
+# Details needed to make the API request
+TESTRAIL = APIClient('XXXXXXXXXXXXXX')      # do not include index.php?/api/v2
+TESTRAIL.user = 'XXXXXXXXXX'                # TestRail email address
+TESTRAIL.password = 'XXXXXXXXXX'            # TestRail password or API token
+
+
+RUN_ID = 1     # Integer ID of target test run
+RUN_TITLE = "New Re-Run Title"  # Title of new test run
+
+# There are up to 12 status IDs available for any TestRail instance, each with a unique ID. 3 = 'Untested'
+# See http://docs.gurock.com/testrail-api2/reference-statuses for information on status_ids
+STATUSES = "1,2,3,4,5,6,7,8,9,10,11,12"
+
+
+def make_api_request(client, uri, post_data=None):
+    """Makes an API request using the client parameter, handles rate limit 429 response
+    
+
+    :param client: TestRail APIClient initialized with URL and credentials
+    :param uri: API endpoint string with any necessary parameters and filters
+    :param post_data: acceptable body of the API request
+
+    :return: valid API response received from TestRail. If an invalid response is received, raises and Exception
+    """
+    too_many_requests = False
+    while not too_many_requests:
+        try:
+            if post_data:
+                response = client.send_post(uri, post_data)
+            else:
+                response = client.send_get(uri)
+            return response
+        except APIError as error:
+            error_string = str(error)
+            if 'Retry after' in error_string:
+                # Parse retry after x seconds
+                retry_after = error_string.split('Retry after ')[1]
+                retry_after = retry_after.split(' ', 1)[0]
+                retry_after = int(retry_after)
+                print('Pause for %x seconds' % retry_after)
+                time.sleep(retry_after)
+                too_many_requests = True
+            else:
+                raise Exception('Unexpected API Error: %s' % error_string)
+
+
+def get_all_cases_for_run(client, run_id, statuses):
+    """Retrieves all test case IDs from run ID based on the statuses filter
+
+    :param client: TestRail APIClient initialized with URL and credentials
+    :param run_id: Test run ID of a single run inside TestRail
+    :param statuses: String of status IDs of tests within the test run
+
+    :return: A list of case IDs from the test run whose tests matched the statuses filter
+    """
+    uri = 'get_tests/' + str(run_id) + "&status_id=" + statuses
+
+    test_list = make_api_request(client, uri)
+    case_ids = list()
+    for test in test_list:
+        case_ids.append(test['case_id'])
+    return case_ids
+
+
+def rerun_test_run(client, run_id, title, statuses):
+    """Clones the Rerun functionality for a test run in TestRail's UI
+
+    :param client: TestRail APIClient initialized with URL and credentials
+    :param run_id: Test run ID of a single run inside TestRail
+    :param title: Title of new test run to be created
+    :param statuses: String of status IDs of tests within the test run
+
+    :return: The new test run's details, as provided by the TestRail API
+    """
+    post_body = dict()
+    previous_run_details = make_api_request(client, 'get_run/' + str(run_id))
+
+    # store the project ID
+    project_id = previous_run_details["project_id"]
+
+    # store the parameters needed to recreate the test run
+    post_body["name"] = title
+    post_body["assignedto_id"] = previous_run_details["assignedto_id"]
+    post_body["description"] = previous_run_details["description"]
+    post_body["suite_id"] = previous_run_details["suite_id"]
+    post_body["milestone_id"] = previous_run_details["milestone_id"]
+    post_body["include_all"] = previous_run_details["include_all"]
+
+    if not previous_run_details["include_all"] or statuses != "1,2,3,4,5,6,7,8,9,10,11,12":
+        post_body["include_all"] = False
+        post_body["case_ids"] = get_all_cases_for_run(client, run_id, statuses)
+
+    return make_api_request(client, 'add_run/' + str(project_id), post_body)
+
+
+def main():
+
+    new_run_details = rerun_test_run(TESTRAIL, RUN_ID, RUN_TITLE, STATUSES)
+    print(new_run_details)
+
+
+if __name__ == '__main__':
+    main()
