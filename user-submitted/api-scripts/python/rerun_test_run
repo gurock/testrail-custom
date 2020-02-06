@@ -90,7 +90,7 @@ def get_all_cases_for_run(client, run_id, statuses):
     return case_ids
 
 
-def rerun_test_run(client, run_id, title, statuses):
+def rerun_test_run(client, run_id, title, statuses="1,2,3,4,5,6,7,8,9,10,11,12"):
     """Clones the Rerun functionality for a test run in TestRail's UI
 
     :param client: TestRail APIClient initialized with URL and credentials
