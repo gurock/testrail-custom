@@ -78,6 +78,7 @@ public class Program
 		if(!((Boolean) run_details.get("include_all")) || (statuses != "1,2,3,4,5,6,7,8,9,10,11,12"))
 		{
 			post_body.put("case_ids", get_case_ids_for_run(client, run_id, statuses));
+			post_body.put("include_all", false);
 		}
 		
 		JSONObject response = (JSONObject) client.sendPost("add_run/" + project_id, post_body);
