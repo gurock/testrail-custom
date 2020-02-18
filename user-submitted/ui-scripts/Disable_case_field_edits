@@ -1,5 +1,5 @@
 name: Hide specific test case fields from editing
-description: Hides test case field editing based on a user's role_id
+description: Hides test case field editing based on a user's role_id. It may be possible to disable fields or make them read-only. This would require additional scripting to ensure the values are submitted when saving edits.
 author: Gurock Software
 version: 1.0
 includes: ^cases/edit
