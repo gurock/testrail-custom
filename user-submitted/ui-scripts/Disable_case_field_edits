@@ -1,5 +1,5 @@
-name: Lock specific test case fields from editing
-description: Disables test case field editing based on a user's role_id
+name: Hide specific test case fields from editing
+description: Hides test case field editing based on a user's role_id
 author: Gurock Software
 version: 1.0
 includes: ^cases/edit
@@ -12,7 +12,7 @@ $(document).ready(
 		if (user_role == 2)
 		{
 			//May need to add a check to see if the field exists
-			document.getElementById("template_id").disabled = true;
+						document.getElementById('addResultElapsedStart').parentElement.style.display = 'none';
 		}
 	}
 );
