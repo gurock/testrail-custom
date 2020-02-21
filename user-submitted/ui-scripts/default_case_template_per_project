@@ -1,0 +1,15 @@
+name: Preselect a template on add case form
+description: Preselects a template on add case form based on the current project.
+author: Gurock Software
+version: 1.0
+includes: ^cases/add
+excludes: 
+js:
+$(document).ready(
+    function() {
+        if (uiscripts.context.project.id == 1)
+        {
+            $('#template_id').val(2);
+        }
+    }
+);
