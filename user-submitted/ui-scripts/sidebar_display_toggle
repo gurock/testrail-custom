@@ -17,10 +17,14 @@ $(document).ready(
     function()
     {
 	  var x = document.getElementById("sidebar");
+	  var y = document.getElementById("addSection");
+
 	  if (x.style.width != '0px' ) {
 	    x.style.width = '0px';
+		y.style.display = 'none';
 	  } else {
 	    x.style.width = '250px';
+		y.style.display = '';
 	  }
     }
 );
