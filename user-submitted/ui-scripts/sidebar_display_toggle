@@ -1,5 +1,5 @@
-name: Show and Hide the Sidebar
-description: Toggles the display of the sidebar when viewing test runs and suites
+name: Sidebar Toggle
+description: Adds a button to toggle the display of the sidebar when viewing test runs and suites
 author: Gurock Software
 version: 1.0
 includes: ^(suites|runs)/view
