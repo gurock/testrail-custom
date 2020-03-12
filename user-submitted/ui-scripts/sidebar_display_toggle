@@ -1,0 +1,27 @@
+name: Show and Hide the Sidebar
+description: Toggles the display of the sidebar when viewing test runs and suites
+author: Gurock Software
+version: 1.0
+includes: ^(suites|runs)/view
+excludes: 
+
+js:
+$(document).ready(
+    function() {
+	var button = $('<div class="toolbar content-header-toolbar"><a class="toolbar-button content-header-button button-responsive toolbar-button-last" style="padding-left: 8px" href="javascript:void(0)">SideBar</a></div>');
+
+
+	$("#content-header .content-header-inner").prepend(button);		
+
+	$("a", button).click(
+    function()
+    {
+	  var x = document.getElementById("sidebar");
+	  if (x.style.width != '0px' ) {
+	    x.style.width = '0px';
+	  } else {
+	    x.style.width = '250px';
+	  }
+    }
+);
+});
