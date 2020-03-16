@@ -1,0 +1,14 @@
+name: Change Test Run Assignee
+description: Changes the 'Assign To' value of a test run to blank to prevent re-assigning all tests to a single user when editing a test run.
+author:
+version: 1.0
+includes: ^runs/edit
+excludes:
+
+js:
+  $(document).ready(
+  function() {
+    var assignee_list = document.getElementById('assignedto_id');
+    assignee_list.options[0].selected = true;
+  }
+);
