@@ -1,0 +1,41 @@
+name: Travis CI Build Button
+description: Triggers a Travis CI build. Before use, the URL for Travis and auth token must be updated.
+autho: Gurock Software
+version: 1.0
+includes: ^runs/view
+excludes: 
+
+js:
+$(document).ready(
+    function() {
+        var data = '{ "request": {"branch":"master", "run_id": ' + uiscripts.context.run.id + '}}';
+	var button = $('<div class="toolbar content-header-toolbar"><a class="toolbar-button toolbar-button-last toolbar-button-first content-header-button button-start" href="javascript:void(0)">Start Travis CI</a></div>');
+	//console.log(data);
+
+	$("#content-header .content-header-inner").prepend(button);		
+
+	$("a", button).click(
+    function()
+    {
+        $.ajax(
+            {
+            url: 'https://api.travis-ci.com/repo/XXXXXXXXXX/requests',
+            dataType: 'json',
+            type: 'POST',
+            beforeSend: function(xhr, settings){
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.setRequestHeader("Accept", "application/json");
+                xhr.setRequestHeader("Travis-API-Version", 3);
+                xhr.setRequestHeader("Authorization", "token  XXXXXXXXXXXXXXXX");
+                console.log(data);
+            },
+            success: function(data, status, xhr){
+                alert('Travis CI Build request successful');
+            },
+            error: function(xhr, status, error){
+                alert('Error from Travis CI: ' + error);
+            }
+        });
+    }
+);
+});
