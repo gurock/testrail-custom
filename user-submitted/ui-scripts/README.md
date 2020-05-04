@@ -16,6 +16,8 @@ This section holds user-submitted TestRail UI Scripts. To learn more about UI Sc
 ### Disclaimers
 * Scripts provided may contain bugs, so are used at your own risk.
 * Since the code and scripts available in this repository will be user-contributed, the TestRail support team may not be able to fully troubleshoot or help customize these.
+* The full content of a UI script is loaded in the browser for pages to which the script applies. Exercise caution when including tokens or credentials in your UI script in order to prevent TestRail users from being able to view this information.
+
 
 ### Contact Us
 If you have any questions, or have a script to contribue which does not fall into any of the available categories, please send us an email here: [contact@gurock.com](mailto:contact@gurock.com)
