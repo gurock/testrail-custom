@@ -1,0 +1,32 @@
+name: Remove Deleted Items From Project Dashboard
+description: Finds any elements in the project dashboard which are flagged as deleted, then removes these from the tables on the dashboard. Pressing the Show More button will show the removed items until the next page reload.
+author: Gurock Software
+version: 1.0
+includes: ^projects/overview
+excludes: 
+js:
+$(document).ready(
+	function() {
+		history_tables = document.getElementsByClassName('grid');
+		for(index = 0; index < history_tables.length; index++)
+		{
+			num_rows = history_tables[index].getElementsByTagName('tr').length;
+			deleted_rows = history_tables[index].getElementsByClassName('text-deleted');
+			if (num_rows == deleted_rows.length)	//Delete entire table and label
+			{
+				date_label = history_tables[index].previousElementSibling;
+				//console.log(date_label);
+				history_tables[index].remove();
+				date_label.remove();
+			}
+			else	//delete individual table rows
+			{
+				for(index2 = deleted_rows.length - 1; index2 >= 0; index2--)
+				{
+					//console.log(deleted_rows[index2].parentElement.parentElement);
+					deleted_rows[index2].parentElement.parentElement.remove();
+				}
+			}
+		}
+	}
+);
