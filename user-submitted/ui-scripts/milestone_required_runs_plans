@@ -1,0 +1,14 @@
+name: Required Milestone
+description: Requires the Milestone Field for Plans and Runs
+author: Gurock Software
+version: 6.5
+includes: ^(plans|runs)/(add|edit)
+excludes: 
+
+js:
+$(document).ready(
+	function() {
+		document.getElementById("milestone_id").required = true;
+		document.getElementById("milestone_id").parentElement.previousElementSibling.innerHTML += '<span style="color:red"> * Required';
+	}
+);
