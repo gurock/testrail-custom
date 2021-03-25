@@ -32,7 +32,7 @@ FILTERS = { 'created_by': None,         # Integer ID of user
 #########################################################
 # THIS CODE BLOCK CAN BE USED TO SET A TIMESTAMP FILTER #
 #########################################################
-# date_string = '01/10/2019'
+# date_string = 'mm/dd/yyyy'
 # FILTERS['created_after'] = int(datetime.strptime(date_string, '%m/%d/%Y').timestamp())
 # date_string = '03/01/2019'
 # FILTERS['created_before'] = int(datetime.strptime(date_string, '%m/%d/%Y').timestamp())
