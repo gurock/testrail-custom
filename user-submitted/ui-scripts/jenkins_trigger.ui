@@ -1,0 +1,49 @@
+name: Trigger tests for run
+description: Triggers automated tests for a test run
+author: Gurock Software
+version: 1.0
+includes: ^runs/view
+excludes: 
+
+js:
+$(document).ready(
+			function() {
+			/* Create the button */
+			var button = $('<div class="toolbar content-header-toolbar"><a class="toolbar-button toolbar-button-last toolbar-button-first content-header-button button-start" 					href="javascript:void(0)">Start Tests</a></div>');
+
+			/* Add it to the toolbar */
+			$("#content-header .content-header-inner").prepend(button);
+
+			/* Bind the click event to trigger the automated tests */
+			$("a", button).click(
+						function() {
+							$.ajax(
+								{
+									/* Jenkins project remote invocation*/ /*will trigger CI project using Jenkins API*/
+									url: "https://<Jenkins server URL>/job/automation/buildWithParameters?token=demotoken&RunID=" + uiscripts.context.run.id,
+									dataType: "json",
+									type: "POST",
+									headers: 
+											{
+												'Authorization': 'Basic ' + btoa('test:11279c6d9c9e93366d1921ea9bf11a45f2')
+											},
+									success: function()
+											{
+												function sleep(milliseconds) {
+														const date = Date.now();
+														let currentDate = null;
+														do {
+														currentDate = Date.now();
+														} while (currentDate - date < milliseconds);
+											}
+
+											sleep(80000);
+
+									location.reload();},
+
+									error: function() {
+										App.Dialogs.error('An error occurred while trying to trigger the automated tests.');}});
+
+									App.Dialogs.message('The tests are being processed in the background and the results are automatically posted back to TestRail. This page refreshes once the tests are finished.');
+
+									return false;});}
