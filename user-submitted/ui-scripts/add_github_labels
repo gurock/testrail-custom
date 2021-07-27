@@ -1,0 +1,25 @@
+name: Set default labels for GH Defect
+description: Sets the 'productboard' and 'bug' labels when pushing defects to GH
+author: Thermofisher GSS Software
+version: 1.0
+includes: ^(runs|tests)/view
+excludes: 
+
+js:
+/**
+* You will have to add the `InnerHTML` of your desired labels. You can find this by:
+*  1. Opening the `Push Defect` dialog
+*  2. Adding the desired labels
+*  3. Open the `Developer Tools` in your browser and navigate through the DOM to find the labels
+*  4. Select the `<li>` node, right click and select `Copy InnerHTML`
+const bug = '<li class="search-choice" id="defect_label_chzn_c_0"><span>bug</span><a href="javascript:void(0)" class="search-choice-close" rel="0"></a></li>'
+const testrail = '<li class="search-choice" id="defect_label_chzn_c_27"><span>testrail</span><a href="javascript:void(0)" class="search-choice-close" rel="27"></a></li>'
+
+$(() => {
+  $.subscribe('push_dialog.loaded', '', function (o) {
+    const labels = $('#defect_label_chzn ul');
+    // Add the desired labels to the list
+    labels.prepend(bug);
+    labels.prepend(testrail);
+  });
+});
