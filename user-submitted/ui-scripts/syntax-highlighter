@@ -1,0 +1,14 @@
+name: highlight.js Syntax Highlighter
+description: highlight.js Syntax Highlighter
+author: Gerald Reisinger, Romain Taprest
+version: 1.1
+includes: 
+excludes: dashboard
+
+js:
+$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/default.min.css') );
+$.getScript("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js", function () {
+  $('code').each(function(i, block) {
+    hljs.highlightElement(block);
+  });
+});
