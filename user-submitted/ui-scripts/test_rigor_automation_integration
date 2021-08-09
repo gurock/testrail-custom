@@ -1,0 +1,35 @@
+name: testRigor UI Integration
+description: Includes the testRigor plugin to show automation options for suites, cases and runs.
+author: testRigor [https://testrigor.com]
+version: 1.0
+includes: .
+excludes: 
+
+js:
+
+/*
+  testRigor is a feature specification engine designed to allow anyone on your team to build,
+	maintain and understand tests created and executed in plain English.
+	We provide a Chrome plugin to speed up test creation,
+	and our AI-powered system dramatically reduces test maintenance to a bare minimum.
+
+  The testRigor ui-script allows TestRail users to enable testRigor integration,
+	allowing them to automate their test cases directly within TestRail
+
+  To learn more visit: https://testrigor.com
+*/
+
+$(document).ready(
+	function() {
+    // Retrieve and inject the plugin from testRigors CDN
+		var domain = "https://cdn.testrigor.com";
+		var mjs = document.createElement("script");
+		mjs.type = "text/javascript";
+		mjs.src = domain + "/testrail-ui-plugin.min.js";
+		var mcss = document.createElement('link');
+		mcss.rel = "stylesheet";
+		mcss.type = "text/css";
+		mcss.href = domain + "/testrail-ui-plugin.min.css";
+		$("head").append(mcss, mjs);
+	}
+);
