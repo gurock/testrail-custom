@@ -1,5 +1,8 @@
 ![Dutchie Logo](https://dutchie.com/favicons/default/apple-touch-icon.png)
 
+[Pub Dev](https://pub.dev/packages/test_rail_dart)
+[Repo](https://github.com/GetDutchie/test_rail_dart)
+
 # Test Rail Dart
 
 This package is a thin wrapper around the Test Rail API that will allow for automated test reporting in Dart. It enables a user to start, report case pass/fail, and close your test runs from a Dart interface.
