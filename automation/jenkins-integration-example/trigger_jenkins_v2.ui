@@ -1,0 +1,198 @@
+name: Jenkins integration
+description: Triggers builds for Jenkins jobs and fetches lastest builds data
+author: Gurock Software
+version: 1.0
+includes: ^runs/overview
+excludes: 
+
+js:
+$(document).ready(
+  function() {
+
+    /* CONFIG */
+
+    const host = "https://INSTANCE.testrail.io";
+    const username = "JENKINS_USER";
+    const key = "JENKINS_USER_API_KEY";  // Generate an API key to avoid security issues
+    const requestInterval = 3000;        // Time between requests to Jenkins
+    const jobs = [
+      {
+        "name": "Run Desktop Tests",
+        "path": "job/Run%20Desktop%20Tests"
+      },
+      {
+        "name": "Run Mobile Tests",
+        "path": "job/Run%20Mobile%20Tests%20Tests/"
+      }
+    ];
+
+    // Layout
+    const headerName = "Automated Test Triggers";
+    const buildHistoryCount = 3;
+    const statusColors = {
+      "SUCCESS": "#3cb850",
+      "FAILURE": "#e40046",
+      "UNSTABLE": "#fcc200",
+      "NOT_BUILT": "#919191",
+      "ABORTED": "#919191",
+      "BUILDING": "#2c9eef"
+    };
+
+    /* SCRIPT */
+
+    const isDarkMode = document.getElementsByTagName("body")[0].className.includes("dark");
+    const borderClass = isDarkMode ? "aut-launch-button-white" : "aut-launch-button-black"
+
+    /* Add container and header */
+    var autTriggers = $("<div id='aut-launcher'></div>");
+    autTriggers.append($(`<h2>${headerName}</h2>`));
+    $("#sidebar > .sidebar-inner > #navigation-plans-add").after(autTriggers);
+
+    /* Iterate configured jobs */
+    jobs.forEach(function(job) {
+
+      /* Create run job button */
+      var button = $(
+        `<div id='aut-launch-job-${job["path"]}'>` +
+        `<button class="aut-launch-button ${borderClass}" title="${job["name"]}">${job["name"]}</button>` +
+        "</div>"
+      );
+
+      /* Bind the click event to trigger the automated tests */
+      $(button).click(
+        function()
+        {
+          $.ajax(
+            {
+              url: `${host}/${job["path"]}/build/api/json`,
+              dataType: "json",
+              type: "POST",
+              headers: {"Authorization": "Basic " + btoa(username + ":" + key)},
+              success: function(data, textStatus, resp)
+              {
+                App.Dialogs.message(
+                  'Your automated test run has been triggered and will show on the list as soon as it starts.',
+                  'Confirmation'
+                );
+              },
+              error: function(requestObject, error, errorThrown)
+              {
+                console.error(`ERROR TRIGGERING JOB: ${job["name"]}\n${error}\n${errorThrown}`);
+                App.Dialogs.message(
+                  `There was an error triggering your job. Please find more info on the console logs.`,
+                  'Error'
+                );
+              }
+            }
+          );
+          return false;
+        }
+      );
+
+      /* Create container with last job builds */
+      var buildsContainer = $(`<div class="aut-launch-current-jobs"></div>`)
+      autTriggers.append(button);
+      button.after(buildsContainer);
+
+      var get_info = function()
+      {
+        $.ajax(
+          {
+            url: `${host}/${job["path"]}/api/json?depth=2`,
+            dataType: "json",
+            type: "GET",
+            headers: {"Authorization": "Basic " + btoa(`${username}:${key}`)},
+            success: function(data, textStatus, resp)
+            {
+              buildsContainer.empty();
+              for (const build of data.builds.slice(0, buildHistoryCount)) {
+                statusColor = statusColors[build.result] 
+                if (build.building == true) {
+                  statusColor = statusColors["BUILDING"];
+                }
+                buildElement = $(
+                  `<div>` + 
+                    `<a style="color: ${statusColor};" href="${build.url}" title="${build.result}" target="_blank">` +
+                      `#${build.number} - ${new Date(build.timestamp).toLocaleString()}` +
+                    `</a>` + 
+                  `</div>`
+                );
+                buildsContainer.append(buildElement);
+              }                           
+            },
+            error: function(requestObject, error, errorThrown)
+            {
+              console.error(`ERROR FETCHING DATA FOR JOB: ${job["name"]}\n${error}\n${errorThrown}`);
+              buildElement = $(`<div style="color: red;" title="See console logs for more info">Error fetching data</div>`);
+              buildsContainer.empty();
+              buildsContainer.append(buildElement);
+            }
+          }
+        );
+        return false;
+      }
+
+      get_info();
+      setInterval(get_info, requestInterval);
+    })
+
+  }
+);
+
+css:
+#aut-launcher {
+  margin-bottom: 40px;
+}
+
+.aut-launch-button {
+  display: inline-block;
+  width: 180px;
+  height: 33px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.aut-launch-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+button.aut-launch-button-black {
+  border: 1px solid #376789;
+  color: #FFFFFF;
+  background: #376789;
+}
+button.aut-launch-button-black:hover {
+  background: #244358;
+  text-decoration: none;
+}
+button.aut-launch-button-white {
+  border: 1px solid #f0f0f0;
+  color: #202020;
+  background: #f0f0f0;
+}
+button.aut-launch-button-white:hover {
+  background: #fff;
+  text-decoration: none;
+}
+
+.aut-launch-current-jobs {
+  background: white;
+  border: 1px solid black;
+  width: 200px;
+  margin-bottom: 10px;
+  margin-left: 1px;
+  padding: 8px 12px;
+}
+
+.aut-launch-current-jobs > div {
+  margin-bottom: 7px;
+}
+
+.aut-launch-current-jobs a {
+  font-family: arial, monospace;
+}
