@@ -6,8 +6,7 @@ includes: ^runs/overview
 excludes: 
 
 js:
-$(document).ready(
-  function() {
+$(document).ready(function() {
 
     /* CONFIG */
 
@@ -39,9 +38,11 @@ $(document).ready(
       "BUILDING": "#2c9eef"
     };
 
+    const isDarkMode = document.getElementsByTagName("body")[0].className.includes("dark");
+    const borderClass = isDarkMode ? "aut-launch-button-white" : "aut-launch-button-black"
+
 
     /* Auth functions */
-
     function setAuthToken(username, key) {
         if (username === '' || key === '') {
             localStorage.removeItem("jenkins_tkn");
@@ -54,23 +55,20 @@ $(document).ready(
         return localStorage.getItem("jenkins_tkn");
     }
 
-    /* SCRIPT */
-
-    const isDarkMode = document.getElementsByTagName("body")[0].className.includes("dark");
-    const borderClass = isDarkMode ? "aut-launch-button-white" : "aut-launch-button-black"
 
     /* Check project */
     if (project !== null && project !== uiscripts.context.project.name) {
         return;
     }
 
+
     /* Add container and header */
     var autTriggers = $(`<div id='aut-launcher'></div>`);
     autTriggers.append($(`<h2>${headerName} <a id="jenkinsConfig" class="button button-integration button-right" style="display: none;"></a></h2>`));
     $("#sidebar > .sidebar-inner > #navigation-plans-add").after(autTriggers);
 
-    /* Handle authentication */
 
+    /* Handle authentication */
     if (username !== null && key !== null) {
         setAuthToken(username, key);
     } else {
@@ -140,106 +138,101 @@ $(document).ready(
         );
     }
     
+
     /* Iterate configured jobs */
     jobs.forEach(function(job) {
 
-      /* Create run job button */
-      var button = $(
-        `<div id='aut-launch-job-${job["path"]}'> \
-          <button class="aut-launch-button ${borderClass}" title="${job["name"]}">${job["name"]}</button> \
-        </div>`
-      );
+        // Create run job button
+        var button = $(
+            `<div id='aut-launch-job-${job["path"]}'> \
+                <button class="aut-launch-button ${borderClass}" title="${job["name"]}">${job["name"]}</button> \
+            </div>`
+        );
 
-      /* Bind the click event to trigger the automated tests */
-      $(button).click(
-        function()
-        {
+        // Bind the click event to trigger the automated tests
+        $(button).click(
+            function() {
+                var authToken = getAuthToken();
+                if (authToken === null) {
+                    App.Dialogs.message("Please set your Jenkins credentials.", "Error");
+                    return;
+                }
+                $.ajax(
+                    {
+                        url: `${host}/${job["path"]}/build/api/json`,
+                        dataType: "json",
+                        type: "POST",
+                        headers: {"Authorization": "Basic " + authToken},
+                        success: function(data, textStatus, resp) {
+                            App.Dialogs.message(
+                                'Your automated test run has been triggered and will show on the list as soon as it starts.',
+                                'Confirmation'
+                            );
+                        },
+                        error: function(requestObject, error, errorThrown) {
+                            console.error(`ERROR TRIGGERING JOB: ${job["name"]}\n${error}\n${errorThrown}`);
+                            App.Dialogs.message(
+                                "There was an error triggering your job. Please find more info on the console logs.",
+                                "Error"
+                            );
+                        }
+                    }
+                );
+            return false;
+            }
+        );
+
+        // Create container with last job builds
+        var buildsContainer = $(`<div class="aut-launch-current-jobs"></div>`)
+        autTriggers.append(button);
+        button.after(buildsContainer);
+
+        var get_info = function() {
             var authToken = getAuthToken();
             if (authToken === null) {
-                App.Dialogs.message("Set auth token first");
+                buildElement = $(`<div style="color: blue;">Please configure your credentials.</div>`);
+                buildsContainer.empty();
+                buildsContainer.append(buildElement);
                 return;
             }
-            $.ajax(
-                {
-                    url: `${host}/${job["path"]}/build/api/json`,
-                    dataType: "json",
-                    type: "POST",
-                    headers: {"Authorization": "Basic " + authToken},
-                    success: function(data, textStatus, resp) {
-                        App.Dialogs.message(
-                            'Your automated test run has been triggered and will show on the list as soon as it starts.',
-                            'Confirmation'
+            $.ajax({
+                url: `${host}/${job["path"]}/api/json?depth=2`,
+                dataType: "json",
+                type: "GET",
+                headers: {"Authorization": "Basic " + authToken},
+                success: function(data, textStatus, resp) {
+                    buildsContainer.empty();
+                    for (const build of data.builds.slice(0, buildHistoryCount)) {
+                        var statusColor = statusColors[build.result] 
+                        if (build.building == true) {
+                            statusColor = statusColors["BUILDING"];
+                        }
+                        buildElement = $(
+                            `<div> \
+                                <a style="color: ${statusColor};" href="${build.url}" title="${build.result}" target="_blank"> \
+                                #${build.number} - ${new Date(build.timestamp).toLocaleString()} \
+                                </a> \
+                            </div>`
                         );
-                    },
-                    error: function(requestObject, error, errorThrown) {
-                        console.error(`ERROR TRIGGERING JOB: ${job["name"]}\n${error}\n${errorThrown}`);
-                        App.Dialogs.message(
-                            `There was an error triggering your job. Please find more info on the console logs.`,
-                            'Error'
-                        );
-                    }
+                        buildsContainer.append(buildElement);
+                    }                           
+                },
+                error: function(requestObject, error, errorThrown) {
+                    console.error(`ERROR FETCHING DATA FOR JOB: ${job["name"]}\n${error}\n${errorThrown}`);
+                    buildElement = $(`<div style="color: red;" title="See console logs for more info">Error fetching data</div>`);
+                    buildsContainer.empty();
+                    buildsContainer.append(buildElement);
                 }
-            );
-          return false;
+            });
+            return false;
         }
-      );
 
-      /* Create container with last job builds */
-      var buildsContainer = $(`<div class="aut-launch-current-jobs"></div>`)
-      autTriggers.append(button);
-      button.after(buildsContainer);
+        // Start to fetch jenkins jobs info on loop
+        get_info();
+        setInterval(get_info, requestInterval);
+    });
+});
 
-      var get_info = function()
-      {
-        var authToken = getAuthToken();
-        if (authToken === null) {
-            buildElement = $(`<div style="color: blue;">Please configure your credentials.</div>`);
-            buildsContainer.empty();
-            buildsContainer.append(buildElement);
-            return;
-        }
-        $.ajax(
-          {
-            url: `${host}/${job["path"]}/api/json?depth=2`,
-            dataType: "json",
-            type: "GET",
-            headers: {"Authorization": "Basic " + authToken},
-            success: function(data, textStatus, resp)
-            {
-              buildsContainer.empty();
-              for (const build of data.builds.slice(0, buildHistoryCount)) {
-                var statusColor = statusColors[build.result] 
-                if (build.building == true) {
-                  statusColor = statusColors["BUILDING"];
-                }
-                buildElement = $(
-                  `<div> \
-                    <a style="color: ${statusColor};" href="${build.url}" title="${build.result}" target="_blank"> \
-                      #${build.number} - ${new Date(build.timestamp).toLocaleString()} \
-                    </a> \
-                  </div>`
-                );
-                buildsContainer.append(buildElement);
-              }                           
-            },
-            error: function(requestObject, error, errorThrown)
-            {
-              console.error(`ERROR FETCHING DATA FOR JOB: ${job["name"]}\n${error}\n${errorThrown}`);
-              buildElement = $(`<div style="color: red;" title="See console logs for more info">Error fetching data</div>`);
-              buildsContainer.empty();
-              buildsContainer.append(buildElement);
-            }
-          }
-        );
-        return false;
-      }
-
-      get_info();
-      setInterval(get_info, requestInterval);
-    })
-
-  }
-);
 
 css:
 #aut-launcher {
