@@ -1,0 +1,311 @@
+name: Jenkins Builds
+description: Triggers builds for Jenkins jobs and fetches lastest builds data
+author: Gurock Software
+version: 1.0
+includes: ^runs/overview
+excludes: 
+
+js:
+$(document).ready(function() {
+
+    /* CONFIG */
+
+    const host = "JENKINS_URL";
+    const username = null;               // Enter username and key only if you fully trust your organization members as this may pose a security risk
+    const key = null;                    // Generate an API key on your Jenkins user account
+    const requestInterval = 10000;       // Time between requests to Jenkins
+    const project = "PROJECT NAME";      // Name of the project to load the triggers for (use value null to enable for all projects)
+    const jobs = [                       // Sample jobs config
+      {
+        "name": "Run Desktop Tests",
+        "path": "job/Automated%20Tests%20Project"
+      },
+      {
+        "name": "Run Mobile Tests",
+        "path": "job/Another%20Automated%20Tests%20Job/"
+      }
+    ];
+
+    // Layout
+    const headerName = "Automated Test Triggers";
+    const buildHistoryCount = 3;
+    const statusColors = {
+      "SUCCESS": "#3cb850",
+      "FAILURE": "#e40046",
+      "UNSTABLE": "#fcc200",
+      "NOT_BUILT": "#919191",
+      "ABORTED": "#919191",
+      "BUILDING": "#2c9eef"
+    };
+
+    const isDarkMode = document.getElementsByTagName("body")[0].className.includes("dark");
+    const borderClass = isDarkMode ? "aut-launch-button-white" : "aut-launch-button-black"
+
+
+    /* Auth functions */
+    function setAuthToken(username, key) {
+        if (username === '' || key === '') {
+            localStorage.removeItem("jenkins_tkn");
+        } else {
+            localStorage.setItem("jenkins_tkn", btoa(`${username}:${key}`)); 
+        }
+    }
+
+    function getAuthToken() {
+        return localStorage.getItem("jenkins_tkn");
+    }
+
+
+    /* Check project */
+    if (project !== null && project !== uiscripts.context.project.name) {
+        return;
+    }
+
+
+    /* Add container and header */
+    var autTriggers = $(`<div id='aut-launcher'></div>`);
+    autTriggers.append($(`<h2>${headerName} <a id="jenkinsConfig" class="button button-integration button-right" style="display: none;"></a></h2>`));
+    $("#sidebar > .sidebar-inner > #navigation-plans-add").after(autTriggers);
+
+
+    /* Handle authentication */
+    if (username !== null && key !== null) {
+        setAuthToken(username, key);
+    } else {
+        var jenkinsConfigButton = $("#jenkinsConfig");
+        jenkinsConfigButton.css("display", "block");
+
+        var dialogBody = $("#messageDialog .dialog-body");
+        var dialogContent = $(`\
+            <div> \
+                <div id="configEdit"> \
+                    <div class="form-group"> \
+                        <label for="jenkinsIntegrationUser"> \
+                            <span>Jenkins User</span> \
+                            <span class="form-required">*</span></label> \
+                        <input class="form-control form-control-small" name="jenkinsIntegrationUser" id="jenkinsIntegrationUser" type="text" maxlength="250"> \
+                    </div> \
+                    <div class="form-group"> \
+                        <label for="jenkinsIntegration1"> \
+                            <span>Jenkins API Key</span> \
+                            <span class="form-required">*</span></label> \
+                        <input class="form-control form-control-small" name="jenkinsIntegrationPassword" id="jenkinsIntegrationPassword" type="text" maxlength="250"> \
+                    </div> \
+                </div> \
+                <div id="configSaved" style="display: block;"> \
+                    <div><strong>Config saved &nbsp;</strong><a id="jenkinsConfigEdit"><div class="icon-small-edit icon-small-inline"></div></a></div> \
+                </div> \
+            </div>`
+        );
+
+        jenkinsConfigButton.click(
+            function() {
+                App.Dialogs.message("", "Jenkins Integration Configuration");
+                dialogBody.append(dialogContent);
+
+                var configEditPanel = $("#configEdit");
+                var configSavedPanel = $("#configSaved");
+                var usernameField = $("#jenkinsIntegrationUser");
+                var keyField = $("#jenkinsIntegrationPassword");
+        
+                if (getAuthToken() !== null) {
+                    configEditPanel.css("display", "none");
+                    configSavedPanel.css("display", "block");
+                } else {
+                    configEditPanel.css("display", "block");
+                    configSavedPanel.css("display", "none");
+                }
+
+                $("#messageDialog .button-ok").click(
+                    function() {
+                        setAuthToken(usernameField.val(), keyField.val());
+                        location.reload();
+                    }
+                )
+                $("#ui-dialog-title-messageDialog + a").click(
+                    function() {
+                        dialogContent.remove();
+                    }
+                )
+
+                $("#jenkinsConfigEdit").click(
+                    function() {
+                        configEditPanel.css("display", "block");
+                        configSavedPanel.css("display", "none");
+                    }
+                );
+            }
+        );
+    }
+    
+
+    /* Iterate configured jobs */
+    jobs.forEach(function(job) {
+
+        // Create run job button
+        var button = $(
+            `<div id='aut-launch-job-${job["path"]}'> \
+                <button class="aut-launch-button ${borderClass}" title="${job["name"]}">${job["name"]}</button> \
+            </div>`
+        );
+
+        // Bind the click event to trigger the automated tests
+        $(button).click(
+            function() {
+                var authToken = getAuthToken();
+                if (authToken === null) {
+                    App.Dialogs.message("Please set your Jenkins credentials.", "Error");
+                    return;
+                }
+                $.ajax(
+                    {
+                        url: `${host}/${job["path"]}/build/api/json`,
+                        dataType: "json",
+                        type: "POST",
+                        headers: {"Authorization": "Basic " + authToken},
+                        success: function(data, textStatus, resp) {
+                            App.Dialogs.message(
+                                'Your automated test run has been triggered and will show on the list as soon as it starts.',
+                                'Confirmation'
+                            );
+                        },
+                        error: function(requestObject, error, errorThrown) {
+                            console.error(`ERROR TRIGGERING JOB: ${job["name"]}\n${error}\n${errorThrown}`);
+                            App.Dialogs.message(
+                                "There was an error triggering your job. Please find more info on the console logs.",
+                                "Error"
+                            );
+                        }
+                    }
+                );
+            return false;
+            }
+        );
+
+        // Create container with last job builds
+        var buildsContainer = $(`<div class="aut-launch-current-jobs"></div>`)
+        autTriggers.append(button);
+        button.after(buildsContainer);
+
+        var get_info = function() {
+            var authToken = getAuthToken();
+            if (authToken === null) {
+                buildElement = $(`<div style="color: blue;">Please configure your credentials.</div>`);
+                buildsContainer.empty();
+                buildsContainer.append(buildElement);
+                return;
+            }
+            $.ajax({
+                url: `${host}/${job["path"]}/api/json?depth=2`,
+                dataType: "json",
+                type: "GET",
+                headers: {"Authorization": "Basic " + authToken},
+                success: function(data, textStatus, resp) {
+                    buildsContainer.empty();
+                    for (const build of data.builds.slice(0, buildHistoryCount)) {
+                        var statusColor = statusColors[build.result] 
+                        if (build.building == true) {
+                            statusColor = statusColors["BUILDING"];
+                        }
+                        buildElement = $(
+                            `<div> \
+                                <a style="color: ${statusColor};" href="${build.url}" title="${build.result}" target="_blank"> \
+                                #${build.number} - ${new Date(build.timestamp).toLocaleString()} \
+                                </a> \
+                            </div>`
+                        );
+                        buildsContainer.append(buildElement);
+                    }                           
+                },
+                error: function(requestObject, error, errorThrown) {
+                    console.error(`ERROR FETCHING DATA FOR JOB: ${job["name"]}\n${error}\n${errorThrown}`);
+                    buildElement = $(`<div style="color: red;" title="See console logs for more info">Error fetching data</div>`);
+                    buildsContainer.empty();
+                    buildsContainer.append(buildElement);
+                }
+            });
+            return false;
+        }
+
+        // Start to fetch jenkins jobs info on loop
+        get_info();
+        setInterval(get_info, requestInterval);
+    });
+});
+
+
+css:
+#aut-launcher {
+  margin-bottom: 40px;
+}
+
+.aut-launch-button {
+  display: inline-block;
+  width: 180px;
+  height: 33px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.aut-launch-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+button.aut-launch-button-black {
+  border: 1px solid #376789;
+  color: #FFFFFF;
+  background: #376789;
+}
+button.aut-launch-button-black:hover {
+  background: #244358;
+  text-decoration: none;
+}
+button.aut-launch-button-white {
+  border: 1px solid #f0f0f0;
+  color: #202020;
+  background: #f0f0f0;
+}
+button.aut-launch-button-white:hover {
+  background: #fff;
+  text-decoration: none;
+}
+
+.aut-launch-current-jobs {
+  background: white;
+  border: 1px solid black;
+  width: 200px;
+  margin-bottom: 10px;
+  margin-left: 1px;
+  padding: 8px 12px;
+}
+
+.aut-launch-current-jobs > div {
+  margin-bottom: 7px;
+}
+
+.aut-launch-current-jobs a {
+  font-family: arial, monospace;
+}
+
+#jenkinsLoginModal {
+  position: fixed; 
+  z-index: 1002; 
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: 550px; 
+  height: auto;
+  background-color: #fefefe;
+  border: 1px solid #888;
+}
+
+.button-integration {
+  margin-top: -7px;
+  padding: 0px 15px;
+  background: #376789 url(https://static.testrail.io/7.5.4.2002/images/integration/jira/configuration-icon.svg) 8px 50% no-repeat;
+}
