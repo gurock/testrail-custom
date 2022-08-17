@@ -1,4 +1,4 @@
-name: Jenkins integration
+name: Jenkins Builds
 description: Triggers builds for Jenkins jobs and fetches lastest builds data
 author: Gurock Software
 version: 1.0
@@ -10,12 +10,12 @@ $(document).ready(function() {
 
     /* CONFIG */
 
-    const host = "http://localhost:8080";
+    const host = "JENKINS_URL";
     const username = null;               // Enter username and key only if you fully trust your organization members as this may pose a security risk
     const key = null;                    // Generate an API key on your Jenkins user account
     const requestInterval = 10000;       // Time between requests to Jenkins
     const project = "PROJECT NAME";      // Name of the project to load the triggers for (use value null to enable for all projects)
-    const jobs = [
+    const jobs = [                       // Sample jobs config
       {
         "name": "Run Desktop Tests",
         "path": "job/Automated%20Tests%20Project"
