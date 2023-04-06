@@ -1,22 +1,16 @@
 <?php
 
-//$tp_username = "pday@wowza.com";
-$tp_username = "qa+testrail@wowza.com";
 
-//$tp_password = "S3pt3mb3r25!";
-$tp_password = "Aut0mat!on";
+// Target Process Credentials
+$tp_username = "TP_USERNAME";
+$tp_password = "TP_PASSWORD";
+$tp_base_url = "https://your.tpondemand.com/api/v1/";
 
-//$tp_base_url = "https://wowzasandbox.tpondemand.com/api/v1/";
-$tp_base_url = "https://wowza.tpondemand.com/api/v1/";
-
-//$testrail_username = "patrick.day@wowza.com";
-//$testrail_password = "S3pt3mb3r!";
-
-$testrail_username = "qa@wowza.com";
-$testrail_password = "2021Quality";
-//$testrail_base_url = "https://testrail.wowza.com/index.php?/api/v2/";
-$testrail_pview_url = "https://testrail.wowza.com/index.php?/plans/view/";
-$testrail_rview_url = "https://testrail.wowza.com/index.php?/runs/view/";
+// Testrail Credentials
+$testrail_username = "TR_USERNAME";
+$testrail_password = "TR_PASSWORD";
+$testrail_pview_url = "https://your-testrail-url/index.php?/plans/view/";
+$testrail_rview_url = "https://your-testrail-url/index.php?/results/view/";
 
 // Get the Target Process entity ID
 
@@ -43,8 +37,8 @@ $resultsTable .= "</table>";
 $payload = array(
     "description" => $resultsTable,
     "owner" => array(
-        "id" => 581
-//          "id" => 89
+	//  "id" => your id associated with your target process account
+        "id" => YOUR_ID
     ),
     "General" => array(
         "id" => $targetProcessId
