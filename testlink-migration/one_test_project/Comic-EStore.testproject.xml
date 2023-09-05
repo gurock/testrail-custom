@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite id="" name="" >
+<node_order><![CDATA[]]></node_order>
+<details><![CDATA[]]></details> 
+<testsuite id="3" name="Regression Test Suite" >
+<node_order><![CDATA[1]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="4" name="Login Validation - Admin user">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>Validate that an administrator user can login successfully and is redirected to the right page.</p>
+]]></summary>
+	<preconditions><![CDATA[<p>Site is up and running.</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>Open application main page</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>The application main page is shown to the user whitout any visible error.</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>Click on the login button on the top right corner of the app.</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>A login form pops up with two fields: Username and Password, a &quot;Login&quot; button, an option for the &quot;forget password&quot; and a ccancel button.</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>Insert &quot;Admin&quot; in the Username input</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>The word &quot;Admin&quot; appear in the Username input</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[4]]></step_number>
+	<actions><![CDATA[<p>Insert &quot;Pass123&quot; in the password field</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>Password &quot;Pass123&quot; appear in the password input form</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[5]]></step_number>
+	<actions><![CDATA[<p>Click in the &quot;Login&quot; button</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>Main page reloads and we can see the login details in the top right corner the app.</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="11" name="Validate Main page">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[2]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>Tests to validate the main page of the application</p>
+]]></summary>
+	<preconditions><![CDATA[<p>The application must be executing and available at the expected endpoint</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>Open main page of the application</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>The main page of the applciation appears</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>Scroll down on the main page</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>Products are loaded when you reach the end of page without errors</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>Check the left menu filters</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>All filters appear</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[4]]></step_number>
+	<actions><![CDATA[]]></actions>
+	<expectedresults><![CDATA[]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="17" name="Validate checkout">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[3]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>Test to validate the ability to checkout of the app</p>
+]]></summary>
+	<preconditions><![CDATA[<p>The application is running</p>
+
+<p>Login operation is working</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>Access the application</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>Tha application main page is shown</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>Login with user &quot;John&quot;</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>User is logged in in the application</p>
+]]></expectedresults>
+	<execution_type><![CDATA[2]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>Click on a product from the main page</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>The details page of the product is loaded</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[4]]></step_number>
+	<actions><![CDATA[<p>Add that product to your shopping bag</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>The product appear in your shopping bag</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[5]]></step_number>
+	<actions><![CDATA[<p>Proceed to check out</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>Validate that the product is there with the right quantities and price&nbsp;</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+</testsuite><testsuite id="24" name="Authentication Tests" >
+<node_order><![CDATA[2]]></node_order>
+<details><![CDATA[<p>Tests to validate authentication in&nbsp;the application</p>
+]]></details> 
+
+<testcase internalid="25" name="Validate logout">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[4]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>Validate that the logout is working</p>
+]]></summary>
+	<preconditions><![CDATA[<p>Application is running</p>
+
+<p>User is in the logged in state</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite></testsuite>

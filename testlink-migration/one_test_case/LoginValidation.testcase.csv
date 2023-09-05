@@ -1,0 +1,6 @@
+Issue ID,Test Type,Test Summary,Test Priority,Action,Data,Result
+1,Manual,Validate that an administrator user can login successfully and is redirected to the right page. ,2,Open application main page ,,The application main page is shown to the user whitout any visible error. 
+1,Manual,,,Click on the login button on the top right corner of the app. ,,"A login form pops up with two fields: Username and Password, a ""Login"" button, an option for the ""forget password"" and a ccancel button. "
+1,Manual,,,"Insert ""Admin"" in the Username input ",,"The word ""Admin"" appear in the Username input "
+1,Manual,,,"Insert ""Pass123"" in the password field ",,"Password ""Pass123"" appear in the password input form "
+1,Manual,,,"Click in the ""Login"" button ",,Main page reloads and we can see the login details in the top right corner the app. 
