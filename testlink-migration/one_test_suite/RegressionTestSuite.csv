@@ -1,0 +1,15 @@
+Issue ID,Test Type,Test Summary,Test Priority,Action,Data,Result
+2,Manual,Validate that an administrator user can login successfully and is redirected to the right page. ,2,Open application main page ,,The application main page is shown to the user whitout any visible error. 
+2,Manual,,,Click on the login button on the top right corner of the app. ,,"A login form pops up with two fields: Username and Password, a ""Login"" button, an option for the ""forget password"" and a ccancel button. "
+2,Manual,,,"Insert ""Admin"" in the Username input ",,"The word ""Admin"" appear in the Username input "
+2,Manual,,,"Insert ""Pass123"" in the password field ",,"Password ""Pass123"" appear in the password input form "
+2,Manual,,,"Click in the ""Login"" button ",,Main page reloads and we can see the login details in the top right corner the app. 
+3,Manual,Tests to validate the main page of the application ,2,Open main page of the application ,,The main page of the applciation appears 
+3,Manual,,,Scroll down on the main page ,,Products are loaded when you reach the end of page without errors 
+3,Manual,,,Check the left menu filters ,,All filters appear 
+3,Manual,,,,,
+4,Manual,Test to validate the ability to checkout of the app ,2,Access the application ,,Tha application main page is shown 
+4,Manual,,,"Login with user ""John"" ",,User is logged in in the application 
+4,Manual,,,Click on a product from the main page ,,The details page of the product is loaded 
+4,Manual,,,Add that product to your shopping bag ,,The product appear in your shopping bag 
+4,Manual,,,Proceed to check out ,,Validate that the product is there with the right quantities and price 
