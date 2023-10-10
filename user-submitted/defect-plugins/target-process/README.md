@@ -45,7 +45,7 @@ NOTE: you must replace the credentials and base_urls with correct values in each
 * "id" => YOUR_ID
 
 
-These scripts are located on server in **/var/www/html/tetrail/custom/**
+These scripts are located on server in **/var/www/html/testrail/custom/**
 
 * **plan-results.php**
 * **run-results.php**
