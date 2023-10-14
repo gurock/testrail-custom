@@ -1,0 +1,28 @@
+name: Hide/Show statuses activity charts
+description: Allows to hide/show statuses on an activity chart, by clicking on status titles.
+author: Romain TAPREST, Gabriel HENRY
+version: 1.0
+includes: ^(projects/overview|cases/results/.*|runs/activity/.*|plans/activity/.*)
+excludes: 
+
+js:
+$(document).ready(
+    function () {
+        $(".chart-legend-item").each(function () {
+            $(this).hover(function() {
+                $(this).css('cursor','pointer');
+            });
+            $(this).click(function(){ 
+                let name = $(this).children().find(".chart-legend-name").text().split(" ").slice(1).join(" ");
+                let serie = App.Charts.activity.series.find(serie => serie.name == name);
+                if (serie.visible) {
+                    serie.hide();
+                    $(this).wrap("<del>");
+                } else {
+                    serie.show();
+                    $(this).unwrap("<del>");
+                }
+             });
+        })
+    }
+);
