@@ -1,12 +1,9 @@
-TestRail Customizations
------------------------
+# testrail-custom
 
-TestRail can be customized in various ways and this repository contains
-several examples for this.
+> **This repository has moved to a new public location.**
 
-http://docs.gurock.com/testrail-integration/start
+The source code for this project is now maintained at:
 
--- 
-Copyright Gurock Software GmbH. See license.md for details.
+## [https://github.com/sembi-oss/testrail-custom](https://github.com/sembi-oss/testrail-custom)
 
-http://www.gurock.com/
+Please update your bookmarks, forks, and any references to point to the new address.
